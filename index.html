@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>IAMNYC TECH</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>IAMNYC TECH</h1>
+    <h2>HELLO WORLD</h2>
+  </header>
+
+  <main class="cards">
+    <section class="bot-card">
+      <div class="card-header">LADYBUG-BOT <a href="https://github.com/mrntandooofc/LADYBUG-BOT" target="_blank" class="repo-link"></a></div>
+      <p>Reliable WhatsApp bot packed with essential features. Perfect for cloud deployment.</p>
+      <div class="buttons">
+<a href="https://github.com/mrntandooofc/LADYBUG-BOT/fork" target="_blank">FORK REPOSITORY</a>
+        <a href="https://bot-hosting.net/?aff=1365321907402047558" target="_blank">DEPLOY ON BOT-HOSTING PANEL</a>
+        <a href="https://dashboard.katabump.com/auth/login#8036cf" target="_blank">DEPLOY ON KATABUMP PANEL</a>
+        <a href="https://optilink.com" target="_blank">DEPLOY ON OPTILINK PANEL</a>
+       <a href="https://mrntandooo.onrender.com/" target="_blank">PAIR SITE</a>
+
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mp3">
+  </audio>
+
+  <div id="musicToggle">🔊 Background Music</div>
+
+  <script>
+    const music = document.getElementById('bgMusic');
+    const toggle = document.getElementById('musicToggle');
+    let playing = false;
+    toggle.onclick = () => {
+      playing ? music.pause() : music.play();
+      playing = !playing;
+      toggle.style.background = playing ? '#2a9d8f' : 'rgba(255,255,255,0.15)';
+    }
+  </script>
+
+</body>
+</html>
