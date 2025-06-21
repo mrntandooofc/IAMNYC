@@ -33,11 +33,28 @@
     font-size: 1.5rem;
   }
 
-  .cards {
+  .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2rem;
+    gap: 1.5rem;
+  }
+
+  .section-title {
+    width: 80%;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+  }
+
+  .cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
     gap: 1.5rem;
   }
 
@@ -116,34 +133,177 @@
     margin-left: auto;
     margin-right: auto;
   }
+
+  /* Form Styles */
+  .upload-form {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    margin-top: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  button {
+    padding: 0.8rem 1.2rem;
+    background-color: #2a9d8f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #21867a;
+  }
+
+  /* Explore section styles */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .project-card {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .project-card h3 {
+    margin-top: 0;
+    color: #2a9d8f;
+  }
+
+  .project-author {
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+
+  .project-description {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .project-links a {
+    color: #4fc3f7;
+    text-decoration: none;
+    margin-right: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .project-links a:hover {
+    text-decoration: underline;
+  }
 </style>
 </head>
 <body>
 
   <header>
     <h1>IAMNYC TECH</h1>
-    <h2>HELLO WORLD</h2>
+    <h2>COMMUNITY PLATFORM FOR DEVELOPERS & USERS</h2>
   </header>
 
-  <main class="cards">
-    <section class="bot-card">
-      <div class="card-header">LADYBUG-BOT <a href="https://github.com/mrntandooofc/LADYBUG-BOT" target="_blank" class="repo-link">🔗</a></div>
-      <p>Reliable WhatsApp bot packed with essential features. Perfect for cloud deployment.</p>
-      <div class="buttons">
-        <a href="https://github.com/mrntandooofc/LADYBUG-BOT/fork" target="_blank">FORK REPOSITORY</a>
-        <a href="https://bot-hosting.net/?aff=1365321907402047558" target="_blank">DEPLOY ON BOT-HOSTING PANEL</a>
-        <a href="https://dashboard.katabump.com/auth/login#8036cf" target="_blank">DEPLOY ON KATABUMP PANEL</a>
-        <a href="https://optilink.com" target="_blank">DEPLOY ON OPTILINK PANEL</a>
-        <a href="https://mrntandooo.onrender.com/" target="_blank">PAIR SITE</a>
+  <div class="container">
+    <!-- Featured Projects Section -->
+    <div class="section-title">
+      <h3>🌟 FEATURED PROJECTS</h3>
+    </div>
+    
+    <section class="cards">
+      <div class="bot-card">
+        <div class="card-header">LADYBUG-BOT <a href="https://github.com/mrntandooofc/LADYBUG-BOT" target="_blank" class="repo-link">🔗</a></div>
+        <p>Reliable WhatsApp bot packed with essential features. Perfect for cloud deployment.</p>
+        <div class="buttons">
+          <a href="https://github.com/mrntandooofc/LADYBUG-BOT/fork" target="_blank">FORK REPOSITORY</a>
+          <a href="https://bot-hosting.net/?aff=1365321907402047558" target="_blank">DEPLOY ON BOT-HOSTING PANEL</a>
+          <a href="https://dashboard.katabump.com/auth/login#8036cf" target="_blank">DEPLOY ON KATABUMP PANEL</a>
+          <a href="https://optilink.com" target="_blank">DEPLOY ON OPTILINK PANEL</a>
+          <a href="https://mrntandooo.onrender.com/" target="_blank">PAIR SITE</a>
+        </div>
       </div>
     </section>
-  </main>
+
+    <!-- Developer Upload Section -->
+    <div class="section-title">
+      <h3>🧑‍💻 DEVELOPER UPLOAD</h3>
+    </div>
+    
+    <div class="upload-form">
+      <form id="projectForm">
+        <div class="form-group">
+          <label for="projectName">Project Name</label>
+          <input type="text" id="projectName" required>
+        </div>
+        <div class="form-group">
+          <label for="developerName">Your Name</label>
+          <input type="text" id="developerName" required>
+        </div>
+        <div class="form-group">
+          <label for="githubLink">GitHub Repository Link</label>
+          <input type="url" id="githubLink" required>
+        </div>
+        <div class="form-group">
+          <label for="projectDescription">Project Description</label>
+          <textarea id="projectDescription" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="deploymentLinks">Deployment Links (separate with commas)</label>
+          <input type="text" id="deploymentLinks" placeholder="https://example1.com, https://example2.com">
+        </div>
+        <button type="submit">Submit Project</button>
+      </form>
+    </div>
+
+    <!-- Explore Projects Section -->
+    <div class="section-title">
+      <h3>🔍 EXPLORE COMMUNITY PROJECTS</h3>
+    </div>
+    
+    <div class="project-grid" id="projectGrid">
+      <!-- Sample Project Card (will be populated by JS) -->
+      <div class="project-card">
+        <h3>LADYBUG-BOT</h3>
+        <p class="project-author">By: Mr. Ntando</p>
+        <p class="project-description">Reliable WhatsApp bot packed with essential features. Perfect for cloud deployment.</p>
+        <div class="project-links">
+          <a href="https://github.com/mrntandooofc/LADYBUG-BOT" target="_blank">GitHub</a>
+          <a href="https://mrntandooo.onrender.com/" target="_blank">Live Demo</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="developer-info">
-    <h3>Developer Information</h3>
-    <p>Name: Mr. Ntando</p>
-    <p>GitHub: <a href="https://github.com/mrntandooofc" target="_blank" style="color: #4fc3f7;">github.com/mrntandooofc</a></p>
-    <p>Project: Ladybug-Bot</p>
+    <h3>Community Information</h3>
+    <p>Platform: IAMNYC TECH Community</p>
+    <p>Founder: <a href="https://github.com/mrntandooofc" target="_blank" style="color: #4fc3f7;">Mr. Ntando</a></p>
+    <p>Join us to share and discover amazing tech projects!</p>
   </div>
 
   <audio id="bgMusic" loop>
@@ -161,6 +321,63 @@
       playing = !playing;
       toggle.style.background = playing ? '#2a9d8f' : 'rgba(255,255,255,0.15)';
     }
+
+    // Project Form Handling
+    const projectForm = document.getElementById('projectForm');
+    const projectGrid = document.getElementById('projectGrid');
+
+    // Store projects in localStorage
+    let projects = JSON.parse(localStorage.getItem('projects')) || [
+      {
+        name: "LADYBUG-BOT",
+        developer: "Mr. Ntando",
+        github: "https://github.com/mrntandooofc/LADYBUG-BOT",
+        description: "Reliable WhatsApp bot packed with essential features. Perfect for cloud deployment.",
+        links: ["https://mrntandooo.onrender.com/"]
+      }
+    ];
+
+    // Display existing projects
+    function displayProjects() {
+      projectGrid.innerHTML = '';
+      projects.forEach(project => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.innerHTML = `
+          <h3>${project.name}</h3>
+          <p class="project-author">By: ${project.developer}</p>
+          <p class="project-description">${project.description}</p>
+          <div class="project-links">
+            <a href="${project.github}" target="_blank">GitHub</a>
+            ${project.links.map(link => `<a href="${link.trim()}" target="_blank">Live Demo</a>`).join('')}
+          </div>
+        `;
+        projectGrid.appendChild(card);
+      });
+    }
+
+    // Handle form submission
+    projectForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const newProject = {
+        name: document.getElementById('projectName').value,
+        developer: document.getElementById('developerName').value,
+        github: document.getElementById('githubLink').value,
+        description: document.getElementById('projectDescription').value,
+        links: document.getElementById('deploymentLinks').value.split(',').filter(link => link.trim() !== '')
+      };
+      
+      projects.push(newProject);
+      localStorage.setItem('projects', JSON.stringify(projects));
+      
+      displayProjects();
+      projectForm.reset();
+      alert('Project submitted successfully!');
+    });
+
+    // Initial display of projects
+    displayProjects();
   </script>
 
 </body>
