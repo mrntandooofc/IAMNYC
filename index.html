@@ -220,16 +220,72 @@
   .project-links a:hover {
     text-decoration: underline;
   }
+
+  /* News section styles */
+  .news-card {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .news-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #2a9d8f;
+  }
+
+  .news-date {
+    font-size: 0.8rem;
+    color: #ccc;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Admin Panel styles */
+  .admin-panel {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    margin-top: 1rem;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  /* Tab styles */
+  .tabs {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+
+  .tab {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin-right: 0.5rem;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .tab.active {
+    background-color: rgba(42, 157, 143, 0.7);
+  }
 </style>
 </head>
 <body>
 
   <header>
-    <h1>IAMNYC TECH</h1>
+    <h1>UNITY TECH</h1>
     <h2>COMMUNITY PLATFORM FOR DEVELOPERS & USERS</h2>
   </header>
 
   <div class="container">
+    <!-- Admin Login Button -->
+    <button id="adminLoginBtn" style="position: absolute; top: 20px; right: 20px;">Admin Login</button>
+
     <!-- Featured Projects Section -->
     <div class="section-title">
       <h3>🌟 FEATURED PROJECTS</h3>
@@ -248,6 +304,24 @@
         </div>
       </div>
     </section>
+
+    <!-- Tech News Section -->
+    <div class="section-title">
+      <h3>📰 TECH NEWS UPDATES</h3>
+    </div>
+
+    <div id="newsContainer">
+      <div class="news-card">
+        <div class="news-title">UNITY TECH Community Launched</div>
+        <div class="news-date">June 15, 2023</div>
+        <p>Welcome to the UNITY Tech Community platform. Share your projects, get feedback, and collaborate with other developers.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-title">Version 2.0 Released</div>
+        <div class="news-date">July 1, 2023</div>
+        <p>We've launched new features including project submissions, admin controls, and tech news updates.</p>
+      </div>
+    </div>
 
     <!-- Developer Upload Section -->
     <div class="section-title">
@@ -299,6 +373,47 @@
     </div>
   </div>
 
+  <!-- Hidden Admin Panel (Initially) -->
+  <div id="adminPanel" class="admin-panel hidden">
+    <h3>ADMIN PANEL</h3>
+    
+    <div class="tabs">
+      <div class="tab active" data-tab="projects">Manage Projects</div>
+      <div class="tab" data-tab="news">Manage News</div>
+      <div class="tab" data-tab="users">Manage Users</div>
+    </div>
+    
+    <div id="projectsTab" class="tab-content">
+      <h4>Submitted Projects</h4>
+      <div id="adminProjectsList"></div>
+    </div>
+    
+    <div id="newsTab" class="tab-content hidden">
+      <h4>Tech News Management</h4>
+      <form id="newsForm">
+        <div class="form-group">
+          <label for="newsTitle">Title</label>
+          <input type="text" id="newsTitle" required>
+        </div>
+        <div class="form-group">
+          <label for="newsContent">Content</label>
+          <textarea id="newsContent" required></textarea>
+        </div>
+        <button type="submit">Add News</button>
+      </form>
+      <div id="adminNewsList" style="margin-top: 1rem;"></div>
+    </div>
+    
+    <div id="usersTab" class="tab-content hidden">
+      <h4>User Management</h4>
+      <div id="adminUsersList">
+        <p>User management features coming soon.</p>
+      </div>
+    </div>
+    
+    <button id="logoutBtn" style="margin-top: 1rem;">Logout</button>
+  </div>
+
   <div class="developer-info">
     <h3>Community Information</h3>
     <p>Platform: IAMNYC TECH Community</p>
@@ -337,6 +452,23 @@
       }
     ];
 
+    // Store news in localStorage
+    let news = JSON.parse(localStorage.getItem('techNews')) || [
+      {
+        title: "UNITY Tech Community Launched",
+        date: "June 15, 2023",
+        content: "Welcome to the IAMNYC Tech Community platform. Share your projects, get feedback, and collaborate with other developers."
+      },
+      {
+        title: "Version 2.0 Released",
+        date: "July 1, 2023",
+        content: "We've launched new features including project submissions, admin controls, and tech news updates."
+      }
+    ];
+
+    // Admin state
+    let isAdmin = false;
+
     // Display existing projects
     function displayProjects() {
       projectGrid.innerHTML = '';
@@ -356,6 +488,63 @@
       });
     }
 
+    // Display news
+    function displayNews() {
+      const newsContainer = document.getElementById('newsContainer');
+      newsContainer.innerHTML = '';
+      
+      news.forEach(item => {
+        const newsCard = document.createElement('div');
+        newsCard.className = 'news-card';
+        newsCard.innerHTML = `
+          <div class="news-title">${item.title}</div>
+          <div class="news-date">${item.date}</div>
+          <p>${item.content}</p>
+          ${isAdmin ? `<button onclick="deleteNews('${item.title}')" style="margin-top: 0.5rem;">Delete</button>` : ''}
+        `;
+        newsContainer.appendChild(newsCard);
+      });
+    }
+
+    // For admin: Display projects in admin panel
+    function displayAdminProjects() {
+      const adminProjectsList = document.getElementById('adminProjectsList');
+      adminProjectsList.innerHTML = '';
+      
+      projects.forEach((project, index) => {
+        const projectDiv = document.createElement('div');
+        projectDiv.className = 'bot-card';
+        projectDiv.style.marginBottom = '1rem';
+        projectDiv.innerHTML = `
+          <h4>${project.name}</h4>
+          <p><strong>Developer:</strong> ${project.developer}</p>
+          <p><strong>Description:</strong> ${project.description}</p>
+          <p><strong>GitHub:</strong> ${project.github}</p>
+          <button onclick="deleteProject(${index})" style="margin-top: 0.5rem;">Delete Project</button>
+        `;
+        adminProjectsList.appendChild(projectDiv);
+      });
+    }
+
+    // For admin: Display news in admin panel
+    function displayAdminNews() {
+      const adminNewsList = document.getElementById('adminNewsList');
+      adminNewsList.innerHTML = '';
+      
+      news.forEach(item => {
+        const newsDiv = document.createElement('div');
+        newsDiv.className = 'news-card';
+        newsDiv.style.marginBottom = '1rem';
+        newsDiv.innerHTML = `
+          <div class="news-title">${item.title}</div>
+          <div class="news-date">${item.date}</div>
+          <p>${item.content}</p>
+          <button onclick="deleteNews('${item.title}')" style="margin-top: 0.5rem;">Delete</button>
+        `;
+        adminNewsList.appendChild(newsDiv);
+      });
+    }
+
     // Handle form submission
     projectForm.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -372,12 +561,113 @@
       localStorage.setItem('projects', JSON.stringify(projects));
       
       displayProjects();
+      if (isAdmin) displayAdminProjects();
       projectForm.reset();
       alert('Project submitted successfully!');
     });
 
-    // Initial display of projects
+    // Handle news form submission
+    const newsForm = document.getElementById('newsForm');
+    if (newsForm) {
+      newsForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        
+        const newNews = {
+          title: document.getElementById('newsTitle').value,
+          date: formattedDate,
+          content: document.getElementById('newsContent').value
+        };
+        
+        news.unshift(newNews);
+        localStorage.setItem('techNews', JSON.stringify(news));
+        
+        displayNews();
+        displayAdminNews();
+        newsForm.reset();
+        alert('News added successfully!');
+      });
+    }
+
+    // Delete project function
+    function deleteProject(index) {
+      if (confirm('Are you sure you want to delete this project?')) {
+        projects.splice(index, 1);
+        localStorage.setItem('projects', JSON.stringify(projects));
+        displayProjects();
+        displayAdminProjects();
+      }
+    }
+
+    // Delete news function
+    function deleteNews(title) {
+      if (confirm('Are you sure you want to delete this news item?')) {
+        news = news.filter(item => item.title !== title);
+        localStorage.setItem('techNews', JSON.stringify(news));
+        displayNews();
+        if (isAdmin) displayAdminNews();
+      }
+    }
+
+    // Admin login/logout functionality
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const adminPanel = document.getElementById('adminPanel');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (adminLoginBtn && adminPanel && logoutBtn) {
+      adminLoginBtn.addEventListener('click', function() {
+        const password = prompt('Enter admin password:');
+        // In a real app, this would be secure server-side authentication
+        if (password === 'IAMNYC123') {
+          isAdmin = true;
+          adminLoginBtn.style.display = 'none';
+          adminPanel.classList.remove('hidden');
+          displayAdminProjects();
+          displayAdminNews();
+          displayNews(); // Update news display with delete buttons
+        } else {
+          alert('Incorrect password');
+        }
+      });
+
+      logoutBtn.addEventListener('click', function() {
+        isAdmin = false;
+        adminLoginBtn.style.display = 'block';
+        adminPanel.classList.add('hidden');
+        displayNews(); // Update news display without delete buttons
+      });
+    }
+
+    // Tab switching functionality
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    if (tabs.length && tabContents.length) {
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // Hide all tab contents
+          tabContents.forEach(content => content.classList.add('hidden'));
+          // Show the selected tab content
+          const tabId = this.getAttribute('data-tab') + 'Tab';
+          document.getElementById(tabId).classList.remove('hidden');
+        });
+      });
+    }
+
+    // Initial display of content
     displayProjects();
+    displayNews();
   </script>
 
 </body>
