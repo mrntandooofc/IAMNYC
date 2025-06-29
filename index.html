@@ -1,36 +1,827 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content=
-  "width=device-width, initial-scale=1.0">
-  <title>Prince Host - WhatsApp Bot Hosting Platform</title>
-  <meta name="description" content=
-  "Deploy and manage your WhatsApp bots with ease on GODLY TECH HOST- the premier bot hosting platform">
-  <meta name="author" content="GODLY TECH">
-  <meta property="og:title" content=
-  "Prince Host - WhatsApp Bot Hosting Platform">
-  <meta property="og:description" content=
-  "Deploy and manage your WhatsApp bots with ease on GODLY TECH- the premier bot hosting platform">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content=
-  "https://files.catbox.moe/52699c.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@">
-  <meta name="twitter:image" content=
-  "https://files.catbox.moe/fv0vec.jpg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com"
-  crossorigin="">
-  <link href=
-  "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
-  rel="stylesheet">
-  <script type="module" crossorigin="" src=
-  "/assets/index-qlJVvMbe.js"></script>
-  <link rel="stylesheet" crossorigin="" href=
-  "/assets/index-CIOdQo2g.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ladybug Bot - WhatsApp Automation Helper</title>
+    <style>
+        :root {
+            --primary-color: #25D366;
+            --secondary-color: #128C7E;
+            --accent-color: #FFD700;
+            --dark-color: #333;
+            --light-color: #f5f5f5;
+            --text-color: #333;
+            --text-light: #777;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-color);
+            color: var(--text-color);
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: var(--secondary-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5rem 0;
+            flex-wrap: wrap;
+            background: linear-gradient(135deg, rgba(37,211,102,0.1) 0%, rgba(255,255,255,1) 100%);
+        }
+        
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+            animation: fadeInLeft 1s ease;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            min-width: 300px;
+            animation: fadeInRight 1s ease;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.5s ease;
+        }
+        
+        .hero-image img:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .cta-button:hover {
+            background-color: transparent;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        .features {
+            background-color: white;
+            padding: 5rem 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .feature-card h3 {
+            color: var(--secondary-color);
+            margin-top: 0;
+        }
+        
+        .about-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(37,211,102,0.05) 0%, rgba(255,255,255,1) 100%);
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        .about-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .reviews {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .review-card {
+            background-color: var(--light-color);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .review-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 5rem;
+            color: rgba(37,211,102,0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+        
+        .reviewer {
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .reviewer::before {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 2px;
+            background-color: var(--accent-color);
+            margin-right: 10px;
+        }
+        
+        .stars {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .contact {
+            padding: 5rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(37,211,102,0.1) 0%, rgba(255,255,255,1) 100%);
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 2rem;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        
+        .audio-control:hover {
+            transform: scale(1.1);
+            background-color: var(--secondary-color);
+        }
+        
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero, .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-text, .hero-image, .about-text, .about-image {
+                margin-bottom: 2rem;
+            }
+            
+            h2::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+        
+        /* Page transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-  <div id="root"></div>
+    <audio id="background-music" loop>
+        <source src="https://files.catbox.moe/jsw7wj.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="audio-control" id="music-toggle">♫</div>
+    
+    <header>
+        <div class="container">
+            <h1>Ladybug Bot</h1>
+            <p>Your WhatsApp Automation Assistant</p>
+        </div>
+    </header>
+    
+    <nav>
+        <a href="#" class="nav-link active" data-page="home">Home</a>
+        <a href="#" class="nav-link" data-page="about">About</a>
+        <a href="#" class="nav-link" data-page="features">Features</a>
+        <a href="#" class="nav-link" data-page="contact">Contact</a>
+    </nav>
+    
+    <main>
+        <section id="home-page" class="page active">
+            <div class="hero">
+                <div class="container">
+                    <div class="hero-text">
+                        <h2>Automate Your WhatsApp Tasks with Ease</h2>
+                        <p>Ladybug Bot is your personal WhatsApp assistant that helps you automate repetitive tasks, schedule messages, and manage your contacts efficiently. Save time and focus on what really matters!</p>
+                        <a href="#" class="cta-button" data-page="features">Explore Features</a>
+                    </div>
+                    <div class="hero-image">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4478/4478405.png" alt="Ladybug Bot" width="300">
+                    </div>
+                </div>
+            </div>
+            
+            <section class="features">
+                <div class="container">
+                    <h2>Powerful Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <h3>Auto Replies</h3>
+                            <p>Set up automatic responses for common questions so you never miss an important message.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Message Scheduling</h3>
+                            <p>Schedule messages to be sent at specific times, perfect for reminders and follow-ups.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Contact Management</h3>
+                            <p>Organize your contacts with tags and groups for better communication efficiency.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Broadcast Messages</h3>
+                            <p>Send bulk messages to multiple recipients while maintaining personalization.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Task Automation</h3>
+                            <p>Automate routine tasks like sending daily reports or regular updates.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>24/7 Availability</h3>
+                            <p>Ladybug Bot works around the clock to handle your WhatsApp communications.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="reviews">
+                <div class="container">
+                    <h2>What Our Users Say</h2>
+                    
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Ladybug Bot has completely transformed how I manage my business communications. The automated responses and scheduling features save me at least 2 hours every day!"</p>
+                        <p class="reviewer">- Sarah J., Small Business Owner</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"I was skeptical at first, but after using Ladybug Bot for a week, I can't imagine going back. The contact management features are incredible!"</p>
+                        <p class="reviewer">- Michael T., Sales Manager</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"As a community organizer, I need to send lots of messages. Ladybug Bot handles all my broadcast messages flawlessly. Highly recommend!"</p>
+                        <p class="reviewer">- Aisha K., Community Leader</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+        
+        <section id="about-page" class="page">
+            <section class="about-section">
+                <div class="container">
+                    <h2>About Ladybug Bot</h2>
+                    <div class="about-content">
+                        <div class="about-text">
+                            <p>Ladybug Bot was founded in 2023 with a simple mission: to help individuals and businesses automate their WhatsApp communications to save time and increase productivity.</p>
+                            <p>Our team of developers and communication specialists have created a robust yet easy-to-use solution that integrates seamlessly with WhatsApp to provide powerful automation capabilities.</p>
+                            <p>We believe that technology should work for you, not the other way around. That's why we've designed Ladybug Bot to be intuitive enough for beginners while offering advanced features for power users.</p>
+                            <p>With thousands of happy users across 15+ countries, Ladybug Bot is quickly becoming the go-to solution for WhatsApp automation.</p>
+                            <a href="#" class="cta-button" data-page="contact">Get in Touch</a>
+                        </div>
+                        <div class="about-image">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Our Team">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="features">
+                <div class="container">
+                    <h2>Our Values</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <h3>Innovation</h3>
+                            <p>We're constantly exploring new ways to improve our product and stay ahead of the curve in communication technology.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Reliability</h3>
+                            <p>Our users depend on us for their important communications, so we prioritize uptime and consistent performance.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>User-Focus</h3>
+                            <p>Every feature is designed with real user needs in mind, not just technical possibilities.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="reviews">
+                <div class="container">
+                    <h2>Our Team</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <h3>Alex Johnson</h3>
+                            <p>Founder & Lead Developer</p>
+                            <p>With 10+ years in software development, Alex created the first prototype of Ladybug Bot to solve his own WhatsApp management challenges.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Maria Garcia</h3>
+                            <p>UX Designer</p>
+                            <p>Maria ensures that Ladybug Bot remains intuitive and user-friendly as we add more advanced features.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>James Smith</h3>
+                            <p>Customer Support</p>
+                            <p>James and his team are dedicated to helping users get the most out of Ladybug Bot with prompt, friendly support.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+        
+        <section id="features-page" class="page">
+            <section class="features" style="padding-top: 5rem;">
+                <div class="container">
+                    <h2>Detailed Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <h3>Auto Replies</h3>
+                            <p>Set up intelligent automatic responses based on keywords, time of day, or sender. Create different reply profiles for business hours vs after hours.</p>
+                            <ul>
+                                <li>Keyword-based triggers</li>
+                                <li>Time-based responses</li>
+                                <li>Contact-specific replies</li>
+                            </ul>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Scheduled Messages</h3>
+                            <p>Plan your communications in advance with our intuitive scheduling system. Perfect for birthday greetings, payment reminders, and regular updates.</p>
+                            <ul>
+                                <li>One-time or recurring</li>
+                                <li>Timezone-aware</li>
+                                <li>Template library</li>
+                            </ul>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Contact Management</h3>
+                            <p>Organize your contacts with custom tags and groups. Create smart lists based on interaction history, location, or other criteria.</p>
+                            <ul>
+                                <li>Custom tags & groups</li>
+                                <li>Import/export tools</li>
+                                <li>Bulk actions</li>
+                            </ul>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Broadcast Campaigns</h3>
+                            <p>Send personalized messages to hundreds of contacts at once while maintaining the personal touch of one-to-one communication.</p>
+                            <ul>
+                                <li>Personalization tokens</li>
+                                <li>Send rate controls</li>
+                                <li>Delivery analytics</li>
+                            </ul>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Workflow Automation</h3>
+                            <p>Create multi-step workflows with conditional logic. Automate complex sequences like onboarding, support tickets, or sales follow-ups.</p>
+                            <ul>
+                                <li>Visual workflow builder</li>
+                                <li>Conditional branching</li>
+                                <li>Integration support</li>
+                            </ul>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Analytics Dashboard</h3>
+                            <p>Track your communication performance with detailed metrics on response times, message open rates, and user engagement.</p>
+                            <ul>
+                                <li>Performance reports</li>
+                                <li>Interaction history</li>
+                                <li>Exportable data</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="reviews">
+                <div class="container">
+                    <h2>Feature Comparison</h2>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background-color: var(--primary-color); color: white;">
+                                    <th style="padding: 1rem; text-align: left;">Feature</th>
+                                    <th style="padding: 1rem; text-align: center;">Basic</th>
+                                    <th style="padding: 1rem; text-align: center;">Pro</th>
+                                    <th style="padding: 1rem; text-align: center;">Enterprise</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 1rem; font-weight: 600;">Auto Replies</td>
+                                    <td style="padding: 1rem; text-align: center;">✓</td>
+                                    <td style="padding: 1rem; text-align: center;">✓</td>
+                                    <td style="padding: 1rem; text-align: center;">✓</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 1rem; font-weight: 600;">Scheduled Messages</td>
+                                    <td style="padding: 1rem; text-align: center;">10/month</td>
+                                    <td style="padding: 1rem; text-align: center;">Unlimited</td>
+                                    <td style="padding: 1rem; text-align: center;">Unlimited</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 1rem; font-weight: 600;">Broadcast Messages</td>
+                                    <td style="padding: 1rem; text-align: center;">50 contacts</td>
+                                    <td style="padding: 1rem; text-align: center;">500 contacts</td>
+                                    <td style="padding: 1rem; text-align: center;">Unlimited</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 1rem; font-weight: 600;">Workflows</td>
+                                    <td style="padding: 1rem; text-align: center;">-</td>
+                                    <td style="padding: 1rem; text-align: center;">5 workflows</td>
+                                    <td style="padding: 1rem; text-align: center;">Unlimited</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 1rem; font-weight: 600;">Analytics</td>
+                                    <td style="padding: 1rem; text-align: center;">Basic</td>
+                                    <td style="padding: 1rem; text-align: center;">Advanced</td>
+                                    <td style="padding: 1rem; text-align: center;">Enterprise</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </section>
+        
+        <section id="contact-page" class="page">
+            <section class="contact">
+                <div class="container">
+                    <h2>Get Started with Ladybug Bot</h2>
+                    <p>Ready to automate your WhatsApp tasks? Contact us to learn more about Ladybug Bot and how it can help you save time and be more productive.</p>
+                    
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">WhatsApp Number</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Your Message</label>
+                                <textarea id="message" name="message" required></textarea>
+                            </div>
+                            <button type="submit" class="cta-button">Send Message</button>
+                        </form>
+                    </div>
+                    
+                    <p><strong>OR get started right away by sending "Add Ladybug" to +263777124998 on WhatsApp.</strong></p>
+                </div>
+            </section>
+            
+            <section class="features" style="background-color: var(--light-color);">
+                <div class="container">
+                    <h2>Contact Information</h2>
+                    <div class="features-grid">
+                        <div class="feature-card" style="text-align: center;">
+                            <h3>Email Support</h3>
+                            <p>support@ladybugbot.com</p>
+                            <p>Available 24/7 for all customers</p>
+                        </div>
+                        <div class="feature-card" style="text-align: center;">
+                            <h3>Phone Support</h3>
+                            <p>+1 (555) 987-6543</p>
+                            <p>Mon-Fri, 9am-5pm EST</p>
+                        </div>
+                        <div class="feature-card" style="text-align: center;">
+                            <h3>Office Address</h3>
+                            <p>Zimbabwe,Gweru</p>
+                            <p>GODLY TECH IS DEV</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">📘</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="LinkedIn">💼</a>
+            </div>
+            <p>© 2025 Ladybug Bot. All rights reserved.</p>
+            <p>This is an independent product and not affiliated with WhatsApp Inc.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Navigation between pages
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page') + '-page';
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                link.classList.add('active');
+                
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Show selected page
+                document.getElementById(pageId).classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            });
+        });
+        
+        // CTA buttons navigation
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                if (button.hasAttribute('data-page')) {
+                    e.preventDefault();
+                    const pageId = button.getAttribute('data-page') + '-page';
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                        if (navLink.getAttribute('data-page') === button.getAttribute('data-page')) {
+                            navLink.classList.add('active');
+                        }
+                    });
+                    
+                    // Hide all pages
+                    document.querySelectorAll('.page').forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Show selected page
+                    document.getElementById(pageId).classList.add('active');
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
+                }
+            });
+        });
+        
+        // Background music toggle
+        const musicToggle = document.getElementById('music-toggle');
+        const backgroundMusic = document.getElementById('background-music');
+        let isMusicPlaying = false;
+        
+        musicToggle.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                backgroundMusic.pause();
+                musicToggle.textContent = '♫';
+                musicToggle.style.backgroundColor = 'var(--primary-color)';
+            } else {
+                backgroundMusic.play();
+                musicToggle.textContent = '🔊';
+                musicToggle.style.backgroundColor = 'var(--secondary-color)';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+        
+        // Set volume to 30% to not be too loud
+        backgroundMusic.volume = 0.3;
+        
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+    </script>
 </body>
 </html>
