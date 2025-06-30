@@ -3,395 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ladybug Bot Hosting</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Ladybug Bot - Automated WhatsApp Assistant</title>
     <style>
-        :root {
-            --primary-color: #8a2be2;
-            --secondary-color: #9932cc;
-            --accent-color: #ffd700;
-            --dark-color: #333;
-            --light-color: #f5f5f5;
-        }
-        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+            display: none; /* Initially hidden */
+        }
+        header {
+            background: #25D366;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        nav {
+            background: #128C7E;
+            display: flex;
+            justify-content: center;
+            padding: 0.5rem 0;
+        }
+        nav a {
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        nav a:hover {
+            background: #075E54;
+            border-radius: 5px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 2rem 0;
+        }
+        .showcase {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .button {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+        footer {
+            background: #128C7E;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 1rem;
+        }
+        .feature-box {
+            background: white;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
-        .navbar {
-            background-color: var(--primary-color);
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #128C7E;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+        }
+        #loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #25D366;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        #countdown {
+            font-size: 1.2rem;
+            margin-top: 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
-        .navbar-brand, .nav-link {
-            color: white !important;
+        /* Audio Player Styles */
+        #audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.8);
+            padding: 10px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+        #audio-controls button {
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            margin-right: 10px;
         }
-        
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-        }
-        
-        .coin-badge {
-            background-color: var(--accent-color);
-            color: var(--dark-color);
-            font-weight: bold;
-        }
-        
-        .cooldown {
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-        
-        .bot-card {
-            border-left: 4px solid var(--primary-color);
+        #audio-controls label {
+            font-size: 0.8rem;
+            color: #333;
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="https://cdn-icons-png.flaticon.com/512/4478/4478405.png" alt="Ladybug Logo" width="30" height="30" class="d-inline-block align-top">
-                Ladybug Bot Hosting
-            </a>
-            <div class="navbar-nav ms-auto">
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle me-1"></i>User Account
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">My Bots</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div id="loading-spinner"></div>
+        <h2>Welcome to Ladybug Bot</h2>
+        <p>Loading please wait...</p>
+        <div id="countdown">Starting in 10 seconds</div>
+    </div>
+
+    <!-- Main Website Content (hidden initially) -->
+    <header>
+        <h1>Ladybug Bot</h1>
+        <p>Your automated WhatsApp assistant</p>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
     </nav>
 
-    <div class="container">
-        <div class="row mb-4">
-            <div class="col-md-8">
-                <h2>Welcome to Ladybug Bot Hosting</h2>
-                <p class="lead">Deploy your WhatsApp automation bots with ease</p>
-            </div>
-            <div class="col-md-4 text-end">
-                <span class="badge rounded-pill coin-badge p-3 fs-6">
-                    <i class="bi bi-coin"></i> Your Coins: <span id="userCoins">0</span>
-                </span>
-            </div>
-        </div>
+    <section id="home" class="container showcase">
+        <h2>Automate Your WhatsApp Tasks</h2>
+        <p>Ladybug Bot helps you automate repetitive tasks, manage contacts, schedule messages, and more on WhatsApp.</p>
+        <a href="#features" class="button">Explore Features</a>
+    </section>
 
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Claim Free Coins</h5>
-                        <p class="card-text">Get 10 free coins every 24 hours to deploy your bots.</p>
-                        <button id="claimBtn" class="btn btn-primary w-100">Claim 10 Coins</button>
-                        <p id="cooldownText" class="cooldown mt-2 d-none">Next claim available in: <span id="cooldownTimer">24:00:00</span></p>
-                    </div>
-                </div>
-            </div>
+    <section id="features" class="container">
+        <h2>Bot Features</h2>
+        
+        <div class="feature-box">
+            <h3>Auto Responder</h3>
+            <p>Automatically reply to messages with pre-set responses based on keywords.</p>
+        </div>
+        
+        <div class="feature-box">
+            <h3>Message Scheduling</h3>
+            <p>Schedule messages to be sent at specific dates and times.</p>
+        </div>
+        
+        <div class="feature-box">
+            <h3>Group Management</h3>
+            <p>Automatically add/remove members, set group rules, and moderate content.</p>
+        </div>
+        
+        <div class="feature-box">
+            <h3>Task Automation</h3>
+            <p>Set up workflows to automate repetitive WhatsApp tasks.</p>
+        </div>
+        
+        <div class="feature-box">
+            <h3>Data Collection</h3>
+            <p>Gather information from contacts through automated questionnaires.</p>
+        </div>
+    </section>
+
+    <section id="about" class="container">
+        <h2>About Us</h2>
+        <div class="feature-box">
+            <h3>About Ladybug Bot</h3>
+            <p>Ladybug Bot is an innovative WhatsApp automation solution created to simplify digital communication. Our bot helps businesses and individuals automate their WhatsApp tasks efficiently.</p>
             
-            <div class="col-md-8 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Deploy New Bot</h5>
-                        <form id="deployForm">
-                            <div class="mb-3">
-                                <label for="botName" class="form-label">Bot Name</label>
-                                <input type="text" class="form-control" id="botName" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="credsFile" class="form-label">Credentials JSON File</label>
-                                <input class="form-control" type="file" id="credsFile" accept=".json" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary" id="deployBtn">
-                                Deploy Bot (10 coins)
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <h3>About the Creator</h3>
+            <p>Ladybug Bot was created by Mr. Ntando Ofc, a developer passionate about creating tools that make digital communication easier and more efficient.</p>
         </div>
+    </section>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">My Bots</h5>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Bot Name</th>
-                                        <th>Status</th>
-                                        <th>Deployed On</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="botsTable">
-                                    <!-- Bot list will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section id="contact" class="container">
+        <h2>Contact Us</h2>
+        <div class="feature-box">
+            <h3>Get in Touch</h3>
+            <p>Have questions or need support with Ladybug Bot?</p>
+            <p>Email us at: <strong>ntandoofc@gmail.com</strong></p>
         </div>
-    </div>
+    </section>
 
-    <footer class="bg-dark text-white text-center py-4 mt-5">
-        <div class="container">
-            <p class="mb-0">© 2023 Ladybug Bot Hosting. All rights reserved.</p>
-        </div>
+    <footer>
+        <p>© 2023 Ladybug Bot | Created by Mr. Ntando Ofc</p>
     </footer>
-
-    <!-- Modals -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Success!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="successMessage">
-                    <!-- Success message will be inserted here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
+    
+    <!-- Hidden Audio Element -->
+    <audio id="background-audio" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Audio Controls -->
+    <div id="audio-controls">
+        <label>Background Music:</label>
+        <button id="play-pause-btn">▶</button>
+        <button id="mute-btn">🔊</button>
     </div>
 
-    <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title">Error</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="errorMessage">
-                    <!-- Error message will be inserted here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // DOM Elements
-        const claimBtn = document.getElementById('claimBtn');
-        const cooldownText = document.getElementById('cooldownText');
-        const cooldownTimer = document.getElementById('cooldownTimer');
-        const userCoinsElement = document.getElementById('userCoins');
-        const deployForm = document.getElementById('deployForm');
-        const botsTable = document.getElementById('botsTable');
-        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-
-        // User data
-        let user = {
-            coins: 0,
-            lastClaim: null,
-            bots: []
-        };
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            loadUserData();
-            updateUI();
-            checkCooldown();
-        });
-
-        // Load user data from localStorage
-        function loadUserData() {
-            const savedUser = localStorage.getItem('ladybugBotUser');
-            if (savedUser) {
-                user = JSON.parse(savedUser);
-            }
-        }
-
-        // Save user data to localStorage
-        function saveUserData() {
-            localStorage.setItem('ladybugBotUser', JSON.stringify(user));
-        }
-
-        // Update the UI based on user data
-        function updateUI() {
-            userCoinsElement.textContent = user.coins;
+        // Loading and countdown functionality
+        let count = 10;
+        const countdownElement = document.getElementById('countdown');
+        const loadingScreen = document.getElementById('loading-screen');
+        const bodyElement = document.body;
+        
+        const countdownInterval = setInterval(function() {
+            count--;
+            countdownElement.textContent = `Starting in ${count} seconds`;
             
-            // Update bots table
-            botsTable.innerHTML = '';
-            if (user.bots.length === 0) {
-                botsTable.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="text-center">No bots deployed yet. Deploy your first bot!</td>
-                    </tr>
-                `;
+            if (count <= 0) {
+                clearInterval(countdownInterval);
+                loadingScreen.style.opacity = 0;
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                    bodyElement.style.display = 'block';
+                    // Start playing background audio when site loads
+                    audioPlayer.play();
+                }, 500);
+            }
+        }, 1000);
+        
+        // Audio Player Functionality
+        const audioPlayer = document.getElementById('background-audio');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const muteBtn = document.getElementById('mute-btn');
+        let isMuted = false;
+        
+        playPauseBtn.addEventListener('click', function() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playPauseBtn.textContent = '⏸';
             } else {
-                user.bots.forEach(bot => {
-                    const row = document.createElement('tr');
-                    row.className = 'bot-card';
-                    row.innerHTML = `
-                        <td>${bot.name}</td>
-                        <td><span class="badge bg-success">Running</span></td>
-                        <td>${new Date(bot.deployedOn).toLocaleString()}</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary me-1">Manage</button>
-                            <button class="btn btn-sm btn-outline-danger">Stop</button>
-                        </td>
-                    `;
-                    botsTable.appendChild(row);
-                });
+                audioPlayer.pause();
+                playPauseBtn.textContent = '▶';
             }
-        }
-
-        // Check claim cooldown
-        function checkCooldown() {
-            if (user.lastClaim) {
-                const lastClaimTime = new Date(user.lastClaim);
-                const now = new Date();
-                const diffMs = now - lastClaimTime;
-                const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
-                
-                if (diffHrs < 24) {
-                    // Still in cooldown
-                    claimBtn.disabled = true;
-                    cooldownText.classList.remove('d-none');
-                    
-                    // Calculate remaining time
-                    const remainingHrs = 23 - Math.floor(diffHrs);
-                    const remainingMins = 59 - Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-                    const remainingSecs = 59 - Math.floor((diffMs % (1000 * 60)) / 1000);
-                    
-                    // Start countdown
-                    updateCooldownTimer(remainingHrs, remainingMins, remainingSecs);
-                    const countdown = setInterval(() => {
-                        if (remainingSecs > 0) {
-                            remainingSecs--;
-                        } else if (remainingMins > 0) {
-                            remainingMins--;
-                            remainingSecs = 59;
-                        } else if (remainingHrs > 0) {
-                            remainingHrs--;
-                            remainingMins = 59;
-                            remainingSecs = 59;
-                        } else {
-                            clearInterval(countdown);
-                            claimBtn.disabled = false;
-                            cooldownText.classList.add('d-none');
-                        }
-                        updateCooldownTimer(remainingHrs, remainingMins, remainingSecs);
-                    }, 1000);
-                }
-            }
-        }
-
-        // Update cooldown timer display
-        function updateCooldownTimer(hours, minutes, seconds) {
-            const hrStr = hours.toString().padStart(2, '0');
-            const minStr = minutes.toString().padStart(2, '0');
-            const secStr = seconds.toString().padStart(2, '0');
-            cooldownTimer.textContent = `${hrStr}:${minStr}:${secStr}`;
-        }
-
-        // Handle coin claim
-        claimBtn.addEventListener('click', function() {
-            user.coins += 10;
-            user.lastClaim = new Date().toISOString();
-            saveUserData();
-            updateUI();
-            
-            document.getElementById('successMessage').textContent = 'You have successfully claimed 10 coins. You can now deploy a bot or claim more coins after 24 hours.';
-            successModal.show();
-            
-            // Disable claim button for 24 hours
-            claimBtn.disabled = true;
-            cooldownText.classList.remove('d-none');
-            checkCooldown();
         });
-
-        // Handle bot deployment
-        deployForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const botName = document.getElementById('botName').value;
-            const credsFile = document.getElementById('credsFile').files[0];
-            
-            // Validate inputs
-            if (!botName || !credsFile) {
-                showError('Please provide both a bot name and credentials file.');
-                return;
+        
+        muteBtn.addEventListener('click', function() {
+            if (isMuted) {
+                audioPlayer.muted = false;
+                muteBtn.textContent = '🔊';
+                isMuted = false;
+            } else {
+                audioPlayer.muted = true;
+                muteBtn.textContent = '🔇';
+                isMuted = true;
             }
-            
-            if (credsFile.type !== 'application/json') {
-                showError('Please upload a valid JSON file for credentials.');
-                return;
-            }
-            
-            if (user.coins < 10) {
-                showError('You need at least 10 coins to deploy a bot. Claim your free coins first.');
-                return;
-            }
-            
-            // Process the creds file
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const creds = JSON.parse(e.target.result);
-                    
-                    // Deduct coins and save bot
-                    user.coins -= 10;
-                    user.bots.push({
-                        name: botName,
-                        deployedOn: new Date().toISOString(),
-                        creds: creds  // In a real app, you'd process/store this securely
-                    });
-                    
-                    saveUserData();
-                    updateUI();
-                    deployForm.reset();
-                    
-                    document.getElementById('successMessage').textContent = `Bot "${botName}" has been successfully deployed!`;
-                    successModal.show();
-                } catch (error) {
-                    showError('Invalid JSON file. Please check your credentials file and try again.');
-                }
-            };
-            reader.onerror = function() {
-                showError('Error reading the credentials file. Please try again.');
-            };
-            reader.readAsText(credsFile);
         });
-
-        // Helper function to show error messages
-        function showError(message) {
-            document.getElementById('errorMessage').textContent = message;
-            errorModal.show();
-        }
+        
+        // Auto-start the audio (this will only work after user interaction)
+        document.addEventListener('click', function initAudio() {
+            audioPlayer.volume = 0.3;
+            document.removeEventListener('click', initAudio);
+        }, { once: true });
     </script>
 </body>
 </html>
