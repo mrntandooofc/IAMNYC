@@ -3,71 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ladybug Bot - Automated WhatsApp Assistant</title>
+    <title>Ladybug Bot - Smart WhatsApp Automation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #25D366;
+            --primary-dark: #128C7E;
+            --primary-darker: #075E54;
+            --text-light: #f9f9f9;
+            --text-dark: #333;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: #333;
+            color: var(--text-dark);
             background-color: #f9f9f9;
+            overflow-x: hidden;
             display: none; /* Initially hidden */
-        }
-        header {
-            background: #25D366;
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-        }
-        nav {
-            background: #128C7E;
-            display: flex;
-            justify-content: center;
-            padding: 0.5rem 0;
-        }
-        nav a {
-            color: white;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            margin: 0 5px;
-        }
-        nav a:hover {
-            background: #075E54;
-            border-radius: 5px;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 2rem 0;
-        }
-        .showcase {
-            text-align: center;
-            padding: 3rem 0;
-        }
-        .button {
-            display: inline-block;
-            background: #25D366;
-            color: white;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 1rem;
-        }
-        footer {
-            background: #128C7E;
-            color: white;
-            text-align: center;
-            padding: 1rem 0;
-            margin-top: 1rem;
-        }
-        .feature-box {
-            background: white;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         /* Loading Screen Styles */
@@ -77,211 +38,1011 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #128C7E;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            color: white;
+            color: var(--text-light);
+            transition: opacity 0.5s ease;
         }
-        #loading-spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #25D366;
+        
+        .loading-content {
+            text-align: center;
+            max-width: 500px;
+            padding: 20px;
+        }
+        
+        .ladybug-loader {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+        }
+        
+        .ladybug-body {
+            width: 80px;
+            height: 60px;
+            background: #f44336;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            animation: bounce 2s infinite;
         }
-        #countdown {
-            font-size: 1.2rem;
-            margin-top: 15px;
+        
+        .ladybug-head {
+            width: 30px;
+            height: 30px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 0;
         }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .dot-1 { top: 20px; left: 20px; }
+        .dot-2 { top: 15px; right: 15px; }
+        .dot-3 { bottom: 15px; left: 15px; }
+        .dot-4 { bottom: 10px; right: 20px; }
+        
+        .loading-progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: var(--primary-color);
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
         
-        /* Audio Player Styles */
+        /* Sliding Menu Styles */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-dark);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .menu-toggle:hover {
+            background: var(--primary-darker);
+            transform: scale(1.1);
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            z-index: 900;
+            transition: var(--transition);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        nav.active {
+            right: 0;
+        }
+        
+        nav a {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--text-dark);
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        
+        nav a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        nav a:hover {
+            background: var(--primary-color);
+            color: white;
+            padding-left: 25px;
+        }
+        
+        .nav-header {
+            padding: 20px;
+            background: var(--primary-dark);
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-header img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        /* Main Content Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            color: white;
+            padding: 5rem 0 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(255,255,255,0.1)"><circle cx="25" cy="25" r="3"/><circle cx="50" cy="50" r="3"/><circle cx="75" cy="25" r="3"/><circle cx="25" cy="75" r="3"/><circle cx="75" cy="75" r="3"/></svg>');
+            background-size: 50px 50px;
+        }
+        
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .showcase {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .button {
+            display: inline-block;
+            background: white;
+            color: var(--primary-dark);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-top: 1rem;
+            font-weight: bold;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .feature-box {
+            background: white;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .feature-box:hover::before {
+            width: 100%;
+            opacity: 0.1;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        /* Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            background: var(--primary-dark);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+        
+        .feature-content {
+            padding: 1.5rem;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            background: white;
+            padding: 3rem 0;
+            margin: 3rem 0;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            border-top: 5px solid var(--primary-color);
+        }
+        
+        .testimonial-card::before {
+            content: """;
+            font-size: 5rem;
+            color: rgba(37, 211, 102, 0.1);
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            line-height: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-dark);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+        
+        /* Contact Form */
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
+        }
+        
+        .form-submit {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+        
+        .form-submit:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        .fab:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        /* Audio Controls */
         #audio-controls {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.8);
-            padding: 10px;
+            bottom: 30px;
+            left: 30px;
+            background: white;
+            padding: 10px 15px;
             border-radius: 50px;
             display: flex;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow);
+            z-index: 100;
         }
+        
         #audio-controls button {
-            background: #25D366;
-            color: white;
+            background: none;
             border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            color: var(--primary-dark);
             cursor: pointer;
-            margin-right: 10px;
+            margin: 0 5px;
+            font-size: 1rem;
+            transition: var(--transition);
         }
-        #audio-controls label {
-            font-size: 0.8rem;
-            color: #333;
-            margin-right: 10px;
+        
+        #audio-controls button:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            
+            nav {
+                width: 250px;
+                right: -250px;
+            }
+            
+            header {
+                padding: 4rem 0 2rem;
+            }
+            
+            #audio-controls {
+                bottom: 20px;
+                left: 20px;
+                padding: 8px 12px;
+            }
+            
+            .fab {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Loading Screen -->
     <div id="loading-screen">
-        <div id="loading-spinner"></div>
-        <h2>Welcome to Ladybug Bot</h2>
-        <p>Loading please wait...</p>
-        <div id="countdown">Starting in 10 seconds</div>
+        <div class="ladybug-loader">
+            <div class="ladybug-head"></div>
+            <div class="ladybug-body">
+                <div class="dot dot-1"></div>
+                <div class="dot dot-2"></div>
+                <div class="dot dot-3"></div>
+                <div class="dot dot-4"></div>
+            </div>
+        </div>
+        
+        <div class="loading-content">
+            <h2>Ladybug Bot is Loading</h2>
+            <p>Preparing your automated WhatsApp experience...</p>
+            
+            <div class="loading-progress">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div id="loading-text">Initializing systems</div>
+        </div>
     </div>
 
-    <!-- Main Website Content (hidden initially) -->
-    <header>
-        <h1>Ladybug Bot</h1>
-        <p>Your automated WhatsApp assistant</p>
-    </header>
+    <!-- Menu Toggle Button -->
+    <div class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#features">Features</a>
-        <a href="#about">About Us</a>
-        <a href="#contact">Contact</a>
+    <!-- Sliding Navigation Menu -->
+    <nav id="main-nav">
+        <div class="nav-header">
+            <img src="https://cdn-icons-png.flaticon.com/512/2702/2702602.png" alt="Ladybug Icon">
+            <h3>Ladybug Bot</h3>
+        </div>
+        <a href="#home"><i class="fas fa-home"></i> Home</a>
+        <a href="#features"><i class="fas fa-cogs"></i> Features</a>
+        <a href="#testimonials"><i class="fas fa-quote-left"></i> Testimonials</a>
+        <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+        <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
     </nav>
 
-    <section id="home" class="container showcase">
-        <h2>Automate Your WhatsApp Tasks</h2>
-        <p>Ladybug Bot helps you automate repetitive tasks, manage contacts, schedule messages, and more on WhatsApp.</p>
-        <a href="#features" class="button">Explore Features</a>
-    </section>
+    <!-- Main Content -->
+    <header id="home">
+        <div class="container showcase">
+            <h1>Smart WhatsApp Automation</h1>
+            <p class="tagline">Boost your productivity with Ladybug Bot's intelligent automation features</p>
+            <div>
+                <a href="#features" class="button"><i class="fas fa-play-circle"></i> Explore Features</a>
+                <a href="#contact" class="button" style="background: transparent; color: white; border: 2px solid white;"><i class="fas fa-download"></i> Download Now</a>
+            </div>
+        </div>
+    </header>
 
-    <section id="features" class="container">
-        <h2>Bot Features</h2>
-        
-        <div class="feature-box">
-            <h3>Auto Responder</h3>
-            <p>Automatically reply to messages with pre-set responses based on keywords.</p>
-        </div>
-        
-        <div class="feature-box">
-            <h3>Message Scheduling</h3>
-            <p>Schedule messages to be sent at specific dates and times.</p>
-        </div>
-        
-        <div class="feature-box">
-            <h3>Group Management</h3>
-            <p>Automatically add/remove members, set group rules, and moderate content.</p>
-        </div>
-        
-        <div class="feature-box">
-            <h3>Task Automation</h3>
-            <p>Set up workflows to automate repetitive WhatsApp tasks.</p>
-        </div>
-        
-        <div class="feature-box">
-            <h3>Data Collection</h3>
-            <p>Gather information from contacts through automated questionnaires.</p>
-        </div>
-    </section>
+    <main class="container">
+        <section id="features">
+            <h2 class="section-title">Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>AI-Powered Responses</h3>
+                        <p>Our bot uses natural language processing to understand and respond to messages intelligently.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Smart Scheduling</h3>
+                        <p>Schedule messages to be sent at optimal times for maximum engagement.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Group Management</h3>
+                        <p>Automatically moderate groups, welcome new members, and enforce rules.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Analytics Dashboard</h3>
+                        <p>Track message metrics, response rates, and engagement statistics.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Advanced Security</h3>
+                        <p>End-to-end encryption and secure authentication protocols.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>API Integrations</h3>
+                        <p>Connect with CRM systems, marketing tools, and other platforms.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section id="about" class="container">
-        <h2>About Us</h2>
-        <div class="feature-box">
-            <h3>About Ladybug Bot</h3>
-            <p>Ladybug Bot is an innovative WhatsApp automation solution created to simplify digital communication. Our bot helps businesses and individuals automate their WhatsApp tasks efficiently.</p>
-            
-            <h3>About the Creator</h3>
-            <p>Ladybug Bot was created by Mr. Ntando Ofc, a developer passionate about creating tools that make digital communication easier and more efficient.</p>
-        </div>
-    </section>
+        <section id="testimonials" class="testimonials">
+            <div class="container">
+                <h2 class="section-title">What Users Say</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <p>Ladybug Bot has transformed our customer service. We can now respond to 90% of inquiries automatically with accurate information.</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <h4>Sarah Johnson</h4>
+                                <p>Customer Support Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <p>The scheduling feature saves me hours each week. I can plan all my communications in advance and focus on other work.</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <h4>Michael Chen</h4>
+                                <p>Marketing Director</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <p>As a community manager, the group automation features are a lifesaver. It handles routine tasks so I can focus on engagement.</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <h4>David Martinez</h4>
+                                <p>Community Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section id="contact" class="container">
-        <h2>Contact Us</h2>
-        <div class="feature-box">
-            <h3>Get in Touch</h3>
-            <p>Have questions or need support with Ladybug Bot?</p>
-            <p>Email us at: <strong>ntandoofc@gmail.com</strong></p>
-        </div>
-    </section>
+        <section id="about">
+            <h2 class="section-title">About Ladybug Bot</h2>
+            <div class="feature-box">
+                <h3>Our Mission</h3>
+                <p>Ladybug Bot was created with the vision of making WhatsApp automation accessible to everyone. We believe technology should simplify communication, not complicate it.</p>
+                
+                <h3>The Team</h3>
+                <p>Founded by Mr. Ntando Ofc, our team consists of messaging experts, AI specialists, and user experience designers dedicated to creating the best automation tools.</p>
+                
+                <div style="display: flex; justify-content: space-around; margin-top: 2rem; flex-wrap: wrap;">
+                    <div style="text-align: center; margin: 1rem;">
+                        <div style="width: 100px; height: 100px; background: var(--primary-dark); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4>Mr. Ntando Ofc</h4>
+                        <p>Founder & Lead Developer</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 1rem;">
+                        <div style="width: 100px; height: 100px; background: var(--primary-dark); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h4>AI Team</h4>
+                        <p>Natural Language Processing</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 1rem;">
+                        <div style="width: 100px; height: 100px; background: var(--primary-dark); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h4>Design Team</h4>
+                        <p>User Experience</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="feature-box">
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" placeholder="Enter your name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="5" placeholder="How can we help you?"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="form-submit">Send Message <i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="feature-box">
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle" style="color: var(--primary-color);"></i> Is Ladybug Bot safe to use with WhatsApp?</h3>
+                    <p>Yes! Ladybug Bot uses official WhatsApp APIs where available and follows all security best practices. Your data remains private and secure.</p>
+                </div>
+                
+                <div class="faq-item" style="margin-top: 1.5rem;">
+                    <h3><i class="fas fa-question-circle" style="color: var(--primary-color);"></i> What devices are supported?</h3>
+                    <p>Ladybug Bot works on Windows, Mac, and Linux computers. A mobile version is coming soon.</p>
+                </div>
+                
+                <div class="faq-item" style="margin-top: 1.5rem;">
+                    <h3><i class="fas fa-question-circle" style="color: var(--primary-color);"></i> How much does it cost?</h3>
+                    <p>We offer a free basic version with premium features available through affordable subscription plans.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer>
-        <p>© 2023 Ladybug Bot | Created by Mr. Ntando Ofc</p>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p>© 2023 Ladybug Bot. All rights reserved.</p>
+            <p>Created with <i class="fas fa-heart" style="color: #f44336;"></i> by Mr. Ntando Ofc</p>
+        </div>
     </footer>
     
-    <!-- Hidden Audio Element -->
-    <audio id="background-audio" loop>
+    <!-- Floating Action Button -->
+    <div class="fab" id="help-fab">
+        <i class="fas fa-question"></i>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="dark-mode-toggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    
+    <!-- Audio Controls -->
+    <div id="audio-controls">
+        <button id="audio-prev"><i class="fas fa-step-backward"></i></button>
+        <button id="audio-play"><i class="fas fa-play"></i></button>
+        <button id="audio-next"><i class="fas fa-step-forward"></i></button>
+        <span style="margin: 0 10px; font-size: 0.8rem;">Background music</span>
+        <button id="audio-mute"><i class="fas fa-volume-up"></i></button>
+        <input type="range" id="audio-volume" min="0" max="1" step="0.1" value="0.5" style="width: 80px;">
+    </div>
+    
+    <!-- Audio Player -->
+    <audio id="background-audio">
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
     
-    <!-- Audio Controls -->
-    <div id="audio-controls">
-        <label>Background Music:</label>
-        <button id="play-pause-btn">▶</button>
-        <button id="mute-btn">🔊</button>
-    </div>
-
+    <!-- Scripts -->
     <script>
-        // Loading and countdown functionality
-        let count = 10;
-        const countdownElement = document.getElementById('countdown');
+        // Enhanced Loading Screen
         const loadingScreen = document.getElementById('loading-screen');
+        const progressBar = document.getElementById('progress-bar');
+        const loadingText = document.getElementById('loading-text');
         const bodyElement = document.body;
         
-        const countdownInterval = setInterval(function() {
-            count--;
-            countdownElement.textContent = `Starting in ${count} seconds`;
-            
-            if (count <= 0) {
-                clearInterval(countdownInterval);
-                loadingScreen.style.opacity = 0;
-                setTimeout(function() {
-                    loadingScreen.style.display = 'none';
-                    bodyElement.style.display = 'block';
-                    // Start playing background audio when site loads
-                    audioPlayer.play();
-                }, 500);
+        const loadingPhases = [
+            { text: "Initializing systems", duration: 1000 },
+            { text: "Loading AI modules", duration: 1500 },
+            { text: "Configuring automation", duration: 2000 },
+            { text: "Setting up dashboard", duration: 1500 },
+            { text: "Finalizing setup", duration: 1000 }
+        ];
+        
+        let progress = 0;
+        const totalDuration = loadingPhases.reduce((sum, phase) => sum + phase.duration, 0);
+        
+        loadingPhases.forEach((phase, index) => {
+            setTimeout(() => {
+                loadingText.textContent = phase.text;
+                
+                // Calculate progress based on phases completed
+                progress = ((index + 1) / loadingPhases.length) * 100;
+                progressBar.style.width = `${progress}%`;
+                
+                // On final phase completion
+                if (index === loadingPhases.length - 1) {
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = 0;
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            bodyElement.style.display = 'block';
+                            
+                            // Trigger animations or other on-load effects
+                            document.querySelectorAll('.feature-card').forEach((card, i) => {
+                                setTimeout(() => {
+                                    card.style.transform = 'translateY(0)';
+                                    card.style.opacity = '1';
+                                }, i * 100);
+                            });
+                        }, 500);
+                    }, phase.duration);
+                }
+            }, loadingPhases.slice(0, index).reduce((sum, phase) => sum + phase.duration, 0));
+        });
+        
+        // Slide-in Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mainNav = document.getElementById('main-nav');
+        
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            menuToggle.innerHTML = mainNav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close menu when clicking outside or on a link
+        document.addEventListener('click', (e) => {
+            if (!mainNav.contains(e.target) && e.target !== menuToggle) {
+                mainNav.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
             }
-        }, 1000);
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close menu after clicking a link (mobile)
+                    mainNav.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
         
         // Audio Player Functionality
         const audioPlayer = document.getElementById('background-audio');
-        const playPauseBtn = document.getElementById('play-pause-btn');
-        const muteBtn = document.getElementById('mute-btn');
-        let isMuted = false;
+        const audioPlay = document.getElementById('audio-play');
+        const audioMute = document.getElementById('audio-mute');
+        const audioVolume = document.getElementById('audio-volume');
+        const audioPrev = document.getElementById('audio-prev');
+        const audioNext = document.getElementById('audio-next');
         
-        playPauseBtn.addEventListener('click', function() {
+        // Set initial volume
+        audioPlayer.volume = audioVolume.value;
+        
+        // Play/Pause toggle
+        audioPlay.addEventListener('click', () => {
             if (audioPlayer.paused) {
                 audioPlayer.play();
-                playPauseBtn.textContent = '⏸';
+                audioPlay.innerHTML = '<i class="fas fa-pause"></i>';
             } else {
                 audioPlayer.pause();
-                playPauseBtn.textContent = '▶';
+                audioPlay.innerHTML = '<i class="fas fa-play"></i>';
             }
         });
         
-        muteBtn.addEventListener('click', function() {
-            if (isMuted) {
-                audioPlayer.muted = false;
-                muteBtn.textContent = '🔊';
-                isMuted = false;
-            } else {
-                audioPlayer.muted = true;
-                muteBtn.textContent = '🔇';
-                isMuted = true;
-            }
+        // Mute toggle
+        audioMute.addEventListener('click', () => {
+            audioPlayer.muted = !audioPlayer.muted;
+            audioMute.innerHTML = audioPlayer.muted ? 
+                '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
         });
         
-        // Auto-start the audio (this will only work after user interaction)
+        // Volume control
+        audioVolume.addEventListener('input', () => {
+            audioPlayer.volume = audioVolume.value;
+            audioPlayer.muted = false;
+            audioMute.innerHTML = '<i class="fas fa-volume-up"></i>';
+        });
+        
+        // Demo playlist functionality (would need actual tracks for real implementation)
+        audioNext.addEventListener('click', () => {
+            // In a real app, this would switch to next track
+            audioPlayer.currentTime = 0;
+        });
+        
+        audioPrev.addEventListener('click', () => {
+            // In a real app, this would switch to previous track
+            audioPlayer.currentTime = 0;
+        });
+        
+        // Auto-play audio (will only work after user interaction)
         document.addEventListener('click', function initAudio() {
             audioPlayer.volume = 0.3;
+            audioVolume.value = 0.3;
+            
+            // Try to play audio (may be blocked by browser)
+            audioPlayer.play().then(() => {
+                audioPlay.innerHTML = '<i class="fas fa-pause"></i>';
+            }).catch(error => {
+                console.log('Auto-play prevented:', error);
+                audioPlay.innerHTML = '<i class="fas fa-play"></i>';
+            });
+            
+            // Remove this event listener after first interaction
             document.removeEventListener('click', initAudio);
         }, { once: true });
-    </script>
-</body>
-</html>
+        
+        // Help FAB functionality
+        const helpFab = document.getElementById('help-fab');
+        helpFab.addEventListener('click', () => {
+            alert('Need help? Contact us at ntandoofc@gmail.com or check our FAQ section.');
+        });
+        
+        // Dark Mode Toggle (placeholder functionality)
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            darkModeToggle.innerHTML = document.body.classList.contains('dark-mode') ? 
+                '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            
+            // In a real implementation, you would persist this preference
+        });
+        
+        // Animation on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.feature-box, .feature-card, .testimonial-card');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        // Set initial state for animation
+        document.querySelectorAll('.feature-box, .feature-card, .testimonial-card').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translate
