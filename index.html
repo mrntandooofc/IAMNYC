@@ -3,89 +3,18 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Premium Digital Hub</title>
+ <title>WhatsApp Pairing Site</title>
  <link rel="stylesheet" href="style.css">
 </head>
 <body>
- <div class="background-animation"></div>
- <div class="loading-screen">
- <div class="loader"></div>
- <h1 class="loading-text">Mr Ntando Ofc</h1>
- </div>
- <div class="container blue-glow" style="display: none;">
- <header>
- <h1>Premium Digital Hub</h1>
- <nav>
- <ul>
- <li><a href="#premium-apps">Premium Apps</a></li>
- <li><a href="#wa-bots">WA Bots</a></li>
- <li><a href="#wa-channel">WA Channel</a></li>
- <li><a href="#wa-group">WA Group</a></li>
- <li><a href="#free-hosting">Free Hosting</a></li>
- <li><a href="#premium-courses">Premium Courses</a></li>
- </ul>
- </nav>
- </header>
- <section id="premium-apps" class="animate-in">
- <h2>Premium Apps</h2>
- <div class="catalog">
- <div class="app">
- <h3>AI Chatbot</h3>
- <p>Revolutionize your customer service with our AI-powered chatbot.</p>
- <button>Learn More</button>
- </div>
- <div class="app">
- <h3>Social Media Manager</h3>
- <p>Streamline your social media presence with our intuitive management tool.</p>
- <button>Learn More</button>
- </div>
- </div>
- </section>
- <section id="wa-bots" class="animate-in">
- <h2>WA Bots</h2>
- <div class="catalog">
- <div class="bot">
- <h3>Customer Support Bot</h3>
- <p>Provide 24/7 customer support with our WhatsApp bot.</p>
- <button>Learn More</button>
- </div>
- <div class="bot">
- <h3>Marketing Bot</h3>
- <p>Boost your sales with our targeted WhatsApp marketing bot.</p>
- <button>Learn More</button>
- </div>
- </div>
- </section>
- <section id="wa-channel" class="animate-in">
- <h2>WA Channel</h2>
- <p>Stay up-to-date with the latest news and updates on our WhatsApp channel.</p>
- <button><a href="https://whatsapp.com/channel/your-channel-link" target="_blank">Join Now</a></button>
- </section>
- <section id="wa-group" class="animate-in">
- <h2>WA Group</h2>
- <p>Connect with like-minded individuals on our WhatsApp group.</p>
- <button><a href="https://chat.whatsapp.com/your-group-link" target="_blank">Join Now</a></button>
- </section>
- <section id="free-hosting" class="animate-in">
- <h2>Free Hosting</h2>
- <p>Host your website or application with our free hosting service.</p>
- <button>Sign Up</button>
- </section>
- <section id="premium-courses" class="animate-in">
- <h2>Premium Courses</h2>
- <div class="catalog">
- <div class="course">
- <h3>Digital Marketing Mastery</h3>
- <p>Learn the secrets of digital marketing with our comprehensive course.</p>
- <button>Enroll Now</button>
- </div>
- <div class="course">
- <h3>Web Development Fundamentals</h3>
- <p>Build a strong foundation in web development with our beginner-friendly course.</p>
- <button>Enroll Now</button>
- </div>
- </div>
- </section>
+ <div class="container">
+ <h1>WhatsApp Pairing Site</h1>
+ <form id="pairing-form">
+ <label for="phone-number">Phone Number:</label>
+ <input type="text" id="phone-number" name="phone-number" required>
+ <button type="submit">Pair</button>
+ </form>
+ <div id="pairing-status"></div>
  </div>
 
  <script src="script.js"></script>
