@@ -1,17 +1,17 @@
 body {
  font-family: Arial, sans-serif;
- margin: 0;
- padding: 0;
- background-color: #f0f0f0;
+ margin:0;
+ padding:0;
+ background-color: #212121; /* Changed background color to dark gray */
 }
 
 .background-animation {
  position: fixed;
- top: 0;
- left: 0;
- width: 100%;
- height: 100%;
- background-image: linear-gradient(to bottom, #3498db, #2ecc71);
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ background-image: linear-gradient(to bottom, #6a11cb, #2575fc); /* Changed background gradient */
  animation: animateBackground 10s linear infinite;
 }
 
@@ -29,11 +29,11 @@ body {
 
 .loading-screen {
  position: fixed;
- top: 0;
- left: 0;
- width: 100%;
- height: 100%;
- background-color: #fff;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ background-color: #212121; /* Changed background color to dark gray */
  display: flex;
  justify-content: center;
  align-items: center;
@@ -41,11 +41,11 @@ body {
 }
 
 .loader {
- border: 8px solid #f3f3f3;
- border-top: 8px solid #3498db;
- border-radius: 50%;
- width: 60px;
- height: 60px;
+ border:8px solid #f3f3f3;
+ border-top:8px solid #6a11cb; /* Changed loader color */
+ border-radius:50%;
+ width:60px;
+ height:60px;
  animation: spin 2s linear infinite;
 }
 
@@ -58,46 +58,60 @@ body {
  }
 }
 
-.loading-screen h1 {
- font-size: 24px;
- color: #333;
- margin-top: 20px;
+.loading-screen::after {
+ content: "Mr Ntando Ofc"; /* Added text after loader */
+ font-size:24px;
+ color: #fff;
+ margin-top:20px;
+ animation: typing 3s steps(11, end) forwards;
+ overflow: hidden;
+ white-space: nowrap;
+ border-right: 2px solid #fff;
+}
+
+@keyframes typing {
+ 0% {
+ width: 0;
+ }
+ 100% {
+ width: 100%;
+ }
 }
 
 .container {
- max-width: 1200px;
- margin: 40px auto;
- padding: 20px;
- background-color: #fff;
- border: 1px solid #ddd;
- box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ max-width:1200px;
+ margin:40px auto;
+ padding:20px;
+ background-color: #333; /* Changed container background color */
+ border:1px solid #444;
+ box-shadow:0 0 10px rgba(0,0,0,0.5);
 }
 
 .blue-glow {
- box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+ box-shadow:0 0 10px rgba(52,152,219,0.5);
 }
 
 header {
- background-color: #333;
+ background-color: #444; /* Changed header background color */
  color: #fff;
- padding: 20px;
+ padding:20px;
  text-align: center;
 }
 
 header h1 {
- margin: 0;
+ margin:0;
 }
 
 nav ul {
  list-style: none;
- margin: 0;
- padding: 0;
+ margin:0;
+ padding:0;
  display: flex;
  justify-content: space-between;
 }
 
 nav li {
- margin-right: 20px;
+ margin-right:20px;
 }
 
 nav a {
@@ -106,14 +120,15 @@ nav a {
 }
 
 section {
- padding: 20px;
- margin-bottom: 20px;
- background-color: #f9f9f9;
- border: 1px solid #ddd;
+ padding:20px;
+ margin-bottom:20px;
+ background-color: #444; /* Changed section background color */
+ border:1px solid #555;
 }
 
 h2 {
- margin-top: 0;
+ margin-top:0;
+ color: #fff;
 }
 
 .catalog {
@@ -123,24 +138,25 @@ h2 {
 }
 
 .app, .bot, .course {
- margin: 20px;
- padding: 20px;
- border: 1px solid #ddd;
- border-radius: 10px;
- box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ margin:20px;
+ padding:20px;
+ border:1px solid #555;
+ border-radius:10px;
+ box-shadow:0 0 10px rgba(0,0,0,0.5);
+ background-color: #333; /* Changed catalog item background color */
 }
 
 button {
- background-color: #3498db;
+ background-color: #6a11cb; /* Changed button background color */
  color: #fff;
  border: none;
- padding: 10px 20px;
- font-size: 16px;
+ padding:10px 20px;
+ font-size:16px;
  cursor: pointer;
 }
 
 button:hover {
- background-color: #2ecc71;
+ background-color: #2575fc; /* Changed button hover background color */
 }
 
 .animate-in {
@@ -149,11 +165,11 @@ button:hover {
 
 @keyframes animateIn {
  0% {
- opacity: 0;
+ opacity:0;
  transform: translateY(20px);
  }
  100% {
- opacity: 1;
+ opacity:1;
  transform: translateY(0);
  }
 }
