@@ -1,123 +1,25 @@
-body {
- font-family: Arial, sans-serif;
- background-color: #212121;
- padding:0;
- margin:0;
-}
-
-.background-animation {
- position:fixed;
- top:0;
- left:0;
- width:100%;
- height:100%;
- background:linear-gradient(45deg, #3a3d41, #2f3237, #26282c);
- background-size:600% 600%;
- animation:background-animation 10s ease infinite;
- z-index:-1;
-}
-
-@keyframes background-animation {
- 0% {
- background-position:0% 50%;
- }
- 50% {
- background-position:100% 50%;
- }
- 100% {
- background-position:0% 50%;
- }
-}
-
-.container {
- max-width:800px;
- margin: auto;
- padding:20px;
- background-color: rgba(40, 40, 40, 0.8);
- border-radius:10px;
- box-shadow:0 0 10px rgba(0,0,0,0.5);
-}
-
-.blue-glow {
- box-shadow:0 0 20px rgba(0,0,255,0.5);
- border:1px solid rgba(0,0,255,0.2);
-}
-
-header {
- background-color: rgba(60, 60, 60, 0.8);
- color: #66d9ef;
- padding:10px;
- text-align: center;
- border-radius:10px 10px 0 0;
-}
-
-nav ul {
- list-style: none;
- padding:0;
-}
-
-nav ul li {
- display: inline;
- margin:0 10px;
-}
-
-nav a {
- color: #66d9ef;
- text-decoration: none;
- transition: color 0.2s ease;
-}
-
-nav a:hover {
- color: #a6e22e;
-}
-
-.catalog {
+.loading-screen {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background-color: #fff;
  display: flex;
- flex-wrap: wrap;
  justify-content: center;
+ align-items: center;
 }
 
-.app, .bot, .course {
- margin:10px;
- padding:10px;
- border:1px solid #555;
- border-radius:10px;
- width: calc(33.33% - 20px);
- box-shadow:0 0 10px rgba(0,0,0,0.5);
- background-color: rgba(60, 60, 60, 0.8);
- color: #66d9ef;
- transition: transform 0.2s ease;
+.loader {
+ border: 8px solid #f3f3f3;
+ border-top: 8px solid #3498db;
+ border-radius: 50%;
+ width: 60px;
+ height: 60px;
+ animation: spin 2s linear infinite;
 }
 
-.app:hover, .bot:hover, .course:hover {
- transform: scale(1.05);
-}
-
-button {
- background-color: #a6e22e;
- color: #333;
- padding:10px 20px;
- border: none;
- border-radius:5px;
- cursor: pointer;
- transition: background-color 0.2s ease;
-}
-
-button:hover {
- background-color: #8bc34a;
-}
-
-.animate-in {
- animation: animate-in 1s ease;
-}
-
-@keyframes animate-in {
- 0% {
- opacity:0;
- transform: translateY(20px);
- }
- 100% {
- opacity:1;
- transform: translateY(0);
- }
+@keyframes spin {
+ 0% { transform: rotate(0deg); }
+ 100% { transform: rotate(360deg); }
 }
