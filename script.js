@@ -1,12 +1,10 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    // Fetch and display bots, channels, apps, and courses
-    // For now, just logging to console
-    console.log('Fetching data...');
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('button');
 
-    // Example fetch call
-    fetch('/api/bots')
-        .then(response => response.json())
-        .then(data => console.log(data));
-
-    // Repeat for channels, apps, and courses
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            console.log('Button clicked:', button.textContent);
+            // Add more functionality here
+        });
+    });
 });
