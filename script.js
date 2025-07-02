@@ -4,6 +4,12 @@ setTimeout(() => {
  document.querySelector('.container').style.display = 'block';
 }, 2000);
 
+// Update loading screen text
+document.querySelector('.loading-screen').innerHTML = `
+ <div class="loader"></div>
+ <h1>Mr Ntando Ofc</h1>
+`;
+
 // Add event listener to nav links
 document.querySelectorAll('nav a').forEach((link) => {
  link.addEventListener('click', (e) => {
