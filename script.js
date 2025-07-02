@@ -1,26 +1,14 @@
-document.addEventListener('DOMContentLoaded', function() {
- const sections = document.querySelectorAll('section');
+// Simulate loading time
+setTimeout(() => {
+ document.querySelector('.loading-screen').style.display = 'none';
+ document.querySelector('.container').style.display = 'block';
+}, 2000);
 
- const observer = new IntersectionObserver((entries) => {
- entries.forEach((entry) => {
- if (entry.isIntersecting) {
- entry.target.classList.add('animate-in');
- }
- });
- }, {
- threshold:0.5
- });
-
- sections.forEach((section) => {
- observer.observe(section);
- });
-
- const buttons = document.querySelectorAll('button');
-
- buttons.forEach((button) => {
- button.addEventListener('click', function() {
- console.log('Button clicked:', button.textContent);
- // Add more functionality here
- });
+// Add event listener to nav links
+document.querySelectorAll('nav a').forEach((link) => {
+ link.addEventListener('click', (e) => {
+ e.preventDefault();
+ const targetId = link.getAttribute('href');
+ document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
  });
 });
